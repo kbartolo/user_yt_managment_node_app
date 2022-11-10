@@ -1,4 +1,16 @@
-# Gestión de usuarios
+# User Restful Api
+
+Project built with:
+
+-   NodeJS
+-   Express
+-   Swagger
+-   Deployment Server: Heroku
+-   For more information, check libraries in packege.json ;)
+
+## Test and Read User Api Documentation
+
+Open https://node-express-restful-api.herokuapp.com/v1/users/doc/ to visualize it.
 
 ## Definición de entidades
 
