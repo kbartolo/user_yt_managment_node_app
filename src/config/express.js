@@ -15,7 +15,10 @@ const swaggerSetup = YAML.parseDocument(file);
 expressApp.use(express.json());
 
 // Routers
+
 expressApp.use('/v1/users', userRouter);
 expressApp.use('/v1/users/doc', swaggerUi.serve, swaggerUi.setup(swaggerSetup));
-
+expressApp.use('/', (req, res) => {
+    res.send('User Restful Api Working ;)');
+});
 export default expressApp;

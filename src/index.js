@@ -4,8 +4,9 @@ import connectDB from '#Config/db.js';
 
 const bootServer = async () => {
     await connectDB(process.env.MONGO_URL);
-    httpServer.listen(process.env.PORT, () => {
-        console.log('Listening on port ' + process.env.PORT);
+    const port = process.env.PORT || 3000;
+    httpServer.listen(process.env.PORT || 3000, () => {
+        console.log('Listening on port ' + port);
     });
 };
 
