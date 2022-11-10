@@ -1,0 +1,355 @@
+openapi: 3.0.1
+info:
+    title: USER API v1
+    description: USER REST API for managing a user data store.
+    version: 1.0.0
+servers:
+    - url: http://localhost:3000/v1/users
+tags:
+    - name: users
+      description: REST API for providing CRUD access and JWT validation
+
+paths:
+    /register:
+        post:
+            tags:
+                - users
+            summary: Insert the information of a new user in the database.
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UserRegisterPostBody'
+                required: true
+            responses:
+                200:
+                    description: (OK) user's information saved correctly.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/userRegisterPostSuccess'
+                400:
+                    $ref: '#/components/responses/BadRequest'
+                401:
+                    $ref: '#/components/responses/Unauthorized'
+                404:
+                    $ref: '#/components/responses/NotFound'
+                500:
+                    $ref: '#/components/responses/ServerError'
+
+    /login:
+        post:
+            tags:
+                - users
+            summary: Allow users log in in the application
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UserLoginBody'
+                required: true
+            responses:
+                200:
+                    description: (OK) user's login correct.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/userLoginSuccess'
+                400:
+                    $ref: '#/components/responses/BadRequest'
+                401:
+                    $ref: '#/components/responses/Unauthorized'
+                404:
+                    $ref: '#/components/responses/NotFound'
+                500:
+                    $ref: '#/components/responses/ServerError'
+
+    /profile:
+        get:
+            tags:
+                - users
+            summary: Getting user profile information.
+            responses:
+                200:
+                    description: (OK) Return user profile information.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/userProfileSuccess'
+                400:
+                    $ref: '#/components/responses/BadRequest'
+                401:
+                    $ref: '#/components/responses/Unauthorized'
+                404:
+                    $ref: '#/components/responses/NotFound'
+                500:
+                    $ref: '#/components/responses/ServerError'
+            security:
+                - api_key: []
+
+    /update-data:
+        patch:
+            tags:
+                - users
+            summary: Update user data.
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UserUpdateDataBody'
+                required: true
+            responses:
+                200:
+                    description: (OK) User data updated.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/userUpdateDataSuccess'
+                400:
+                    $ref: '#/components/responses/BadRequest'
+                401:
+                    $ref: '#/components/responses/Unauthorized'
+                404:
+                    $ref: '#/components/responses/NotFound'
+                500:
+                    $ref: '#/components/responses/ServerError'
+            security:
+                - api_key: []
+
+    /update-email:
+        patch:
+            tags:
+                - users
+            summary: Update user email.
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UserUpdateEmailBody'
+                required: true
+            responses:
+                200:
+                    description: (OK) User email updated.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/userUpdateEmailSuccess'
+                400:
+                    $ref: '#/components/responses/BadRequest'
+                401:
+                    $ref: '#/components/responses/Unauthorized'
+                404:
+                    $ref: '#/components/responses/NotFound'
+                500:
+                    $ref: '#/components/responses/ServerError'
+            security:
+                - api_key: []
+
+    /update-password:
+        patch:
+            tags:
+                - users
+            summary: Update user password information.
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UserUpdatePasswordBody'
+                required: true
+            responses:
+                200:
+                    description: (OK) user password updated.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/userUpdatePasswordSuccess'
+                400:
+                    $ref: '#/components/responses/BadRequest'
+                401:
+                    $ref: '#/components/responses/Unauthorized'
+                404:
+                    $ref: '#/components/responses/NotFound'
+                500:
+                    $ref: '#/components/responses/ServerError'
+            security:
+                - api_key: []
+
+    /delete:
+        delete:
+            tags:
+                - users
+            summary: Delete an user from database.
+            responses:
+                200:
+                    description: (OK) user's login correct.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/userDeleteSuccess'
+                400:
+                    $ref: '#/components/responses/BadRequest'
+                401:
+                    $ref: '#/components/responses/Unauthorized'
+                404:
+                    $ref: '#/components/responses/NotFound'
+                500:
+                    $ref: '#/components/responses/ServerError'
+            security:
+                - api_key: []
+
+components:
+    responses:
+        Unauthorized:
+            description: (Unauthorized) There is no authorization
+        NotFound:
+            description: (NotFound) Information not found
+        BadRequest:
+            description: (BadRequest) The data sent is incorrect
+        ServerError:
+            description: Server error
+
+    schemas:
+        User:
+            type: object
+            properties:
+                _id:
+                    type: string
+                    description: User ID in uuid4 format
+                name:
+                    type: string
+                    description: User's name
+                surname:
+                    type: string
+                    description: User's lastname
+                email:
+                    type: string
+                    description: User's email
+        UserRegisterPostBody:
+            type: object
+            properties:
+                _id:
+                    type: string
+                    description: User ID in uuid4 format
+                name:
+                    type: string
+                    description: User's name
+                surname:
+                    type: string
+                    description: User's lastname
+                email:
+                    type: string
+                    description: User's email
+                password:
+                    type: string
+                    description: The user's password must contain at least one uppercase, one lowercase and a number. Minimum 10 characters and maximum 25
+        userRegisterPostSuccess:
+            type: object
+            properties:
+                response:
+                    type: object
+                    properties:
+                        message:
+                            type: string
+                            description: Send a success message
+        UserLoginBody:
+            type: object
+            properties:
+                email:
+                    type: string
+                    description: User's email
+                password:
+                    type: string
+                    description: The user's password must contain at least one uppercase, one lowercase and a number. Minimum 10 characters and maximum 25
+        userLoginSuccess:
+            type: object
+            properties:
+                response:
+                    type: object
+                    properties:
+                        message:
+                            type: string
+                            description: User's login correct
+                        jwt:
+                            type: string
+                            description: Return a JWT
+        userProfileSuccess:
+            type: object
+            properties:
+                response:
+                    type: object
+                    properties:
+                        message:
+                            type: string
+                            description: User's login correct
+                        data:
+                            $ref: '#/components/schemas/User'
+                            description: User data
+        UserUpdateDataBody:
+            type: object
+            properties:
+                name:
+                    type: string
+                    description: User's name
+                surname:
+                    type: string
+                    description: User's lastname
+        UserUpdateEmailBody:
+            type: object
+            properties:
+                email:
+                    type: string
+                    description: User email
+                password:
+                    type: string
+                    description: User password
+        UserUpdatePasswordBody:
+            type: object
+            properties:
+                oldPassword:
+                    type: string
+                    description: Old user password
+                newPassword:
+                    type: string
+                    description: New user password
+        userUpdateDataSuccess:
+            type: object
+            properties:
+                response:
+                    type: object
+                    properties:
+                        message:
+                            type: string
+                            description: User data updated.
+        userUpdateEmailSuccess:
+            type: object
+            properties:
+                response:
+                    type: object
+                    properties:
+                        message:
+                            type: string
+                            description: User email updated.
+        userUpdatePasswordSuccess:
+            type: object
+            properties:
+                response:
+                    type: object
+                    properties:
+                        message:
+                            type: string
+                            description: User password updated.
+        userDeleteSuccess:
+            type: object
+            properties:
+                response:
+                    type: object
+                    properties:
+                        message:
+                            type: string
+                            description: User deleted.
+
+    securitySchemes:
+        api_key:
+            type: apiKey
+            name: authorization
+            in: header

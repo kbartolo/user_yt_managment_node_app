@@ -22,7 +22,11 @@ const userLoginController = async (req, res) => {
         .setExpirationTime('1d')
         .sign(encoder.encode(process.env.JWT_PRIVATE_SECRET));
 
-    return res.send({ jwt });
+    const result = {
+        response: "User's login correct",
+        jwt,
+    };
+    return res.send(result);
 };
 
 export default userLoginController;

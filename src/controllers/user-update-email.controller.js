@@ -14,7 +14,12 @@ const userUpdateEmailController = async (req, res) => {
 
     user.email = email;
     await user.save();
-    return res.send('Correo actualizado Correctamente.');
+    const result = {
+        response: {
+            message: 'Correo actualizado Correctamente.',
+        },
+    };
+    return res.send(result);
 };
 
 export default userUpdateEmailController;

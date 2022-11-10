@@ -23,7 +23,12 @@ const userRegisterController = async (req, res) => {
         password: hashPassword,
     });
     await newUser.save();
-    return res.status(201).send('Usuario registrado con éxito');
+    const result = {
+        response: {
+            message: 'Registered user successfully.',
+        },
+    };
+    return res.status(201).send(result);
 };
 
 export default userRegisterController;

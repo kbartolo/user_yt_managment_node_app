@@ -18,7 +18,12 @@ const userUpdatePasswordController = async (req, res) => {
     const newHashedPassword = await hash(newPassword, SALT);
     user.password = newHashedPassword;
     await user.save();
-    return res.send('Contraseña actualizada Correctamente.');
+    const result = {
+        response: {
+            message: 'Contraseña actualizada Correctamente.',
+        },
+    };
+    return res.send(result);
 };
 
 export default userUpdatePasswordController;

@@ -6,7 +6,13 @@ const userProfileController = async (req, res) => {
         return res.status(401).send({ errors: ['Usuario no autorizado'] });
 
     const { _id, name, surname, email } = existingUserById;
-    return res.send({ _id, name, surname, email });
+    const result = {
+        response: {
+            message: 'Profile user data.',
+            data: { _id, name, surname, email },
+        },
+    };
+    return res.send(result);
 };
 
 export default userProfileController;

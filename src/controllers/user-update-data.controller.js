@@ -8,7 +8,12 @@ const userUpdateDataController = async (req, res) => {
     user.name = name;
     user.surname = surname;
     await user.save();
-    return res.send('Usuario Actualizado.');
+    const result = {
+        response: {
+            message: 'User data updated.',
+        },
+    };
+    return res.send(result);
 };
 
 export default userUpdateDataController;
